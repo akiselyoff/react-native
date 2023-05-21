@@ -1,91 +1,33 @@
-import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
-  Button,
-  Alert,
+  TextInput,
+  TouchableWithoutFeedback, // обертка для для всего контента.
+  Keyboard, // импорт компонента клавиатуры
+  KeyboardAvoidingView, // обертка для клавиатуры.
+  Platform,
 } from "react-native";
 
 export default function App() {
+  const [value, setValue] = useState("");
+  const inputHandler = (text) => setValue(text);
   return (
-    <View style={styles.container}>
-      <Text>Text field</Text>
-      <ScrollView style={styles.scroll}>
-        <Text>
-          ScrollView textScrollView textScrollView textScrollView text
-          ScrollView text ScrollView text ScrollView text ScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView textScrollView textScrollView
-          textScrollView textScrollView text ScrollView text ScrollView text
-          ScrollView textScrollView textScrollView textScrollView textScrollView
-          text ScrollView text ScrollView text ScrollView textScrollView
-          textScrollView textScrollView textScrollView text ScrollView text
-          ScrollView text ScrollView text
-        </Text>
-      </ScrollView>
-      <Button
-        title="Press me"
-        onPress={() => Alert.alert("Button was pressed")}
-      />
-      <StatusBar style="auto" />
-    </View>
+    <TouchableWithoutFeedback // при касании на пустом месте вне инпута, клавиатура исчезает.
+      onPress={Keyboard.dismiss}
+    >
+      <View style={styles.container}>
+        <KeyboardAvoidingView // определяет ОС и настраивает поведение клавиатуры. Фикс перекрытия клавиатурой поля инпут для ios
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <TextInput
+            placeholder="Type text"
+            value={value}
+            onChangeText={inputHandler}
+          />
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -94,9 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  scroll: {
-    flex: 1,
+    justifyContent: "flex-end",
+    paddingBottom: 30,
   },
 });
